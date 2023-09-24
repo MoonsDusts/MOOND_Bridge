@@ -2,7 +2,7 @@ import { ethers } from "hardhat";
 
 async function main() {
   const bridge = await ethers.deployContract("Bridge", [
-    "0x7b826810484C8CbdD2D4D652753D961A7F12B5D7",
+    "0x6ca5fac496bf94345958635e6e6171dfe78f36bb",
   ]);
 
   await bridge.waitForDeployment();

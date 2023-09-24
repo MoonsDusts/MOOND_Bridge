@@ -10,7 +10,7 @@ contract Bridge is Ownable {
     uint256 public startTimestamp;
     uint256 public burnLimit = 10 ** 18;
 
-    uint256 constant BRIDGE_PERIOD = 10 minutes;
+    uint256 constant BRIDGE_PERIOD = 30 days;
 
     constructor(address _token) Ownable() {
         token = _token;
