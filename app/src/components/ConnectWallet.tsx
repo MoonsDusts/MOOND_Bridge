@@ -1,7 +1,7 @@
 import { useConnectModal, useAccountModal } from "@rainbow-me/rainbowkit";
 import { Address, useAccount, useBalance } from "wagmi";
 import { ORIGIN_TOKEN_ADDR } from "../contracts";
-import { bscTestnet } from "viem/chains";
+import { bsc } from "viem/chains";
 import BSC from "../assets/BSC.png";
 
 const ConnectWallet = () => {
@@ -9,8 +9,8 @@ const ConnectWallet = () => {
   const { openAccountModal } = useAccountModal();
   const { address } = useAccount();
   const { data: balance } = useBalance({
-    token: ORIGIN_TOKEN_ADDR[bscTestnet.id] as Address,
-    chainId: bscTestnet.id,
+    token: ORIGIN_TOKEN_ADDR[bsc.id] as Address,
+    chainId: bsc.id,
     address,
     watch: true,
   });

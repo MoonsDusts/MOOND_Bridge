@@ -10,7 +10,7 @@ import {
   useContractRead,
   erc20ABI,
 } from "wagmi";
-import { arbitrumGoerli, bsc, bscTestnet } from "viem/chains";
+import { bsc, arbitrumNova } from "viem/chains";
 import { BaseError, formatUnits, parseUnits } from "viem";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { toast } from "react-hot-toast";
@@ -33,32 +33,32 @@ const BridgeCard = () => {
   const { chain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
   const { data: bscBalance } = useBalance({
-    token: ORIGIN_TOKEN_ADDR[bscTestnet.id] as Address,
+    token: ORIGIN_TOKEN_ADDR[bsc.id] as Address,
     address: address,
-    chainId: bscTestnet.id,
+    chainId: bsc.id,
     watch: true,
   });
   const { data: novaBalance } = useBalance({
-    token: DEST_TOKEN_ADDR[arbitrumGoerli.id] as Address,
+    token: DEST_TOKEN_ADDR[arbitrumNova.id] as Address,
     address: address,
-    chainId: arbitrumGoerli.id,
+    chainId: arbitrumNova.id,
     watch: true,
   });
   const { data: startTime } = useContractRead({
-    address: BRIDGE_ADDR[bscTestnet.id] as Address,
-    chainId: bscTestnet.id,
+    address: BRIDGE_ADDR[bsc.id] as Address,
+    chainId: bsc.id,
     abi: BridgeABI,
     functionName: "startTimestamp",
   });
   const { data: allowance } = useContractRead({
-    address: ORIGIN_TOKEN_ADDR[bscTestnet.id] as Address,
+    address: ORIGIN_TOKEN_ADDR[bsc.id] as Address,
     abi: TokenABI,
     functionName: "allowance",
-    args: [address, BRIDGE_ADDR[bscTestnet.id]],
+    args: [address, BRIDGE_ADDR[bsc.id]],
     watch: true,
   });
-  const publicClient = usePublicClient({ chainId: bscTestnet.id });
-  const { data: walletClient } = useWalletClient({ chainId: bscTestnet.id });
+  const publicClient = usePublicClient({ chainId: bsc.id });
+  const { data: walletClient } = useWalletClient({ chainId: bsc.id });
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [left, setLeft] = useState(0);
@@ -89,8 +89,8 @@ const BridgeCard = () => {
 
   const onApprove = async () => {
     if (address && walletClient) {
-      if (chain?.id !== bscTestnet.id) {
-        await switchNetworkAsync?.(bscTestnet.id);
+      if (chain?.id !== bsc.id) {
+        await switchNetworkAsync?.(bsc.id);
       }
       setLoading(true);
       try {
@@ -102,10 +102,10 @@ const BridgeCard = () => {
 
         const { request } = await publicClient.simulateContract({
           account: address,
-          address: ORIGIN_TOKEN_ADDR[bscTestnet.id] as Address,
+          address: ORIGIN_TOKEN_ADDR[bsc.id] as Address,
           abi: TokenABI,
           functionName: "approve",
-          args: [BRIDGE_ADDR[bscTestnet.id], amount],
+          args: [BRIDGE_ADDR[bsc.id], amount],
         });
 
         const allowTx = await walletClient.writeContract(request);
@@ -127,8 +127,8 @@ const BridgeCard = () => {
 
   const onBridge = async () => {
     if (address && walletClient) {
-      if (chain?.id !== bscTestnet.id) {
-        await switchNetworkAsync?.(bscTestnet.id);
+      if (chain?.id !== bsc.id) {
+        await switchNetworkAsync?.(bsc.id);
       }
       setLoading(true);
       try {
@@ -140,7 +140,7 @@ const BridgeCard = () => {
 
         const { request } = await publicClient.simulateContract({
           account: address,
-          address: BRIDGE_ADDR[bscTestnet.id] as Address,
+          address: BRIDGE_ADDR[bsc.id] as Address,
           abi: BridgeABI,
           functionName: "bridge",
           args: [amount],

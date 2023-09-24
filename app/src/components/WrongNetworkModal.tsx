@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { useNetwork, useSwitchNetwork } from "wagmi";
-import { bscTestnet } from "viem/chains";
+import { bsc } from "viem/chains";
 import CloseSVG from "./svg/Close";
 
 const WrongNetworkModal = () => {
@@ -10,12 +10,12 @@ const WrongNetworkModal = () => {
   const { switchNetworkAsync } = useSwitchNetwork();
 
   useEffect(() => {
-    if (chain && chain.id !== bscTestnet.id) setOpen(true);
+    if (chain && chain.id !== bsc.id) setOpen(true);
     else setOpen(false);
   }, [chain]);
 
   const onSwitch = async () => {
-    if (chain?.id !== bscTestnet.id) await switchNetworkAsync?.(bscTestnet.id);
+    if (chain?.id !== bsc.id) await switchNetworkAsync?.(bsc.id);
   };
 
   return (

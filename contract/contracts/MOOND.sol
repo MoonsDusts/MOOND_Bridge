@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract MoonsDust is ERC20, Ownable {
     uint256 public MAX_TOTAL_SUPPLY = 3_300_000 * 10 ** 18;
 
-    uint256 public BRIDGE_PERIOD = 30 days;
+    uint256 public BRIDGE_PERIOD = 28 days;
     uint256 public bridgeStartTime;
 
     constructor() ERC20("MoonsDust", "MOOND") Ownable() {}

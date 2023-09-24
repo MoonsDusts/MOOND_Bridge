@@ -7,7 +7,7 @@ import {
   Log,
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-import { bsc, bscTestnet, arbitrumGoerli, arbitrumNova } from "viem/chains";
+import { bsc, arbitrumNova } from "viem/chains";
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 import dotenv from "dotenv";
@@ -32,19 +32,19 @@ const account = privateKeyToAccount(
 );
 
 const bscPublicClient = createPublicClient({
-  chain: bscTestnet,
-  transport: http(bscTestnet.rpcUrls.default.http[0]),
+  chain: bsc,
+  transport: http(bsc.rpcUrls.default.http[0]),
 });
 
 const arbPublicClient = createPublicClient({
-  chain: arbitrumGoerli,
-  transport: http(arbitrumGoerli.rpcUrls.default.http[0]),
+  chain: arbitrumNova,
+  transport: http(arbitrumNova.rpcUrls.default.http[0]),
 });
 
 const arbWalletClient = createWalletClient({
-  chain: arbitrumGoerli,
+  chain: arbitrumNova,
   account,
-  transport: http(arbitrumGoerli.rpcUrls.default.http[0]),
+  transport: http(arbitrumNova.rpcUrls.default.http[0]),
 });
 
 const getLogs = async () => {
@@ -69,9 +69,10 @@ const getLogs = async () => {
 };
 
 const main = async () => {
+  console.log("--------------start-----------------");
   bscPublicClient.watchContractEvent({
     abi: BridgeABI,
-    address: BRIDGE_ADDR[bscTestnet.id] as `0x${string}`,
+    address: BRIDGE_ADDR[bsc.id] as `0x${string}`,
     eventName: "BridgeInitialized",
     pollingInterval: 10000,
     onLogs: async (logs) => {
@@ -137,7 +138,7 @@ const main = async () => {
         const { request } = await arbPublicClient.simulateContract({
           account: arbWalletClient.account,
           abi: TokenABI,
-          address: DEST_TOKEN_ADDR[arbitrumGoerli.id] as `0x${string}`,
+          address: DEST_TOKEN_ADDR[arbitrumNova.id] as `0x${string}`,
           functionName: "mint",
           args: [senders, amounts],
         });

@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: Bridge
-    network: chapel
+    network: bsc
     source:
-      address: "0x3691e9d6dDc85A224cF132382c4b038B15c19F9C"
+      address: "0x858e2F077a9Fb14d820e948B6A82c7057c155B0C"
       abi: Bridge
-      startBlock: 33423126
+      startBlock: 32027316
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
